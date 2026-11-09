@@ -1,0 +1,9 @@
+export const KINGDOM_PREFIX = ['Ashen', 'Silver', 'Hollow'];
+export const KINGDOM_SUFFIX = ['Realm', 'Dominion'];
+export const LOCATION_NAMES: Record<string, any> = { village: { prefix: ['Ash'], suffix: ['hollow'] }, forest: { prefix: ['Dusk'], suffix: ['wood'] }, ruins: { prefix: ['Fallen'], suffix: ['ruins'] }, cave: { prefix: ['Gloom'], suffix: ['cavern'] }, mountain: { prefix: ['Iron'], suffix: ['peak'] }, dungeon: { prefix: ['Sunken'], suffix: ['crypt'] }, castle: { prefix: ['Broken'], suffix: ['keep'] }, lake: { prefix: ['Still'], suffix: ['lake'] } };
+export const LOCATION_DESCRIPTIONS: Record<string, string[]> = { village: ['A tired settlement.'], forest: ['Ancient trees.'], ruins: ['Broken stone.'], cave: ['Cold damp air.'], mountain: ['The wind howls.'], dungeon: ['A chill hangs here.'], castle: ['A ruined keep.'], lake: ['Still water.'] };
+export const MONSTER_TEMPLATES: Record<string, string[]> = { Beast: ['Dire Wolf'], Undead: ['Skeleton'], Demon: ['Imp'], Humanoid: ['Bandit'], Ancient: ['Golem'], Boss: ['The Ashen King'] };
+export const WEAPON_PREFIX = ['Ashen', 'Gilded'];
+export const WEAPON_NOUN: Record<string, string[]> = { Weapon: ['Blade'], Armor: ['Plate'], Shield: ['Aegis'], Ring: ['Band'], Amulet: ['Talisman'], Potion: ['Elixir'] };
+export const ITEM_EPITHETS = ['of the Last Oath'];
+export const EVENT_TEMPLATES = [{ id: 'ev_1', title: 'A Wounded Merchant', narrative: 'A merchant begs for help.', choices: [{ id: 'help', label: 'Help him.', outcome: 'He thanks you.', reward: { xp: 30 } }] }];

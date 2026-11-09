@@ -1,0 +1,1 @@
+export function EmptyState({ title, description, icon }: any) { return <div className="text-center py-10"><div className="text-muted mb-2">{icon}</div><div className="text-lg h-serif text-ink">{title}</div><div className="text-sm text-muted italic">{description}</div></div>; }

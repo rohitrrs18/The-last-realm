@@ -1,0 +1,1 @@
+export function StatRow({ label, value }: any) { return <div className="flex justify-between border-b border-gold/10 pb-1 text-sm"><span className="text-muted">{label}</span><span className="text-goldSoft">{value}</span></div>; }

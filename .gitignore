@@ -1,0 +1,142 @@
+# ══════════════════════════════════════════════════════════════════
+#  DEPENDENCIES
+# ══════════════════════════════════════════════════════════════════
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+jspm_packages/
+
+# ══════════════════════════════════════════════════════════════════
+#  BUILD OUTPUT
+# ══════════════════════════════════════════════════════════════════
+dist/
+dist-ssr/
+build/
+out/
+.vite/
+*.local
+
+# TypeScript
+*.tsbuildinfo
+.tsbuildinfo
+
+# ══════════════════════════════════════════════════════════════════
+#  ENVIRONMENT
+# ══════════════════════════════════════════════════════════════════
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ══════════════════════════════════════════════════════════════════
+#  LOGS
+# ══════════════════════════════════════════════════════════════════
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+lerna.json
+
+# ══════════════════════════════════════════════════════════════════
+#  TESTING / COVERAGE
+# ══════════════════════════════════════════════════════════════════
+coverage/
+.nyc_output/
+*.lcov
+.cypress/
+cypress/screenshots/
+cypress/videos/
+playwright-report/
+test-results/
+.vitest/
+
+# ══════════════════════════════════════════════════════════════════
+#  EDITORS / IDEs
+# ══════════════════════════════════════════════════════════════════
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.code-workspace
+
+# ══════════════════════════════════════════════════════════════════
+#  OS FILES
+# ══════════════════════════════════════════════════════════════════
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ══════════════════════════════════════════════════════════════════
+#  CACHE / TEMP
+# ══════════════════════════════════════════════════════════════════
+.cache/
+.temp/
+.tmp/
+.eslintcache
+.stylelintcache
+.parcel-cache/
+
+# ══════════════════════════════════════════════════════════════════
+#  DEPLOYMENT (Vercel / Netlify)
+# ══════════════════════════════════════════════════════════════════
+.vercel/
+.netlify/
+.firebase/
+.now/
+
+# ══════════════════════════════════════════════════════════════════
+#  PROJECT-SPECIFIC
+# ══════════════════════════════════════════════════════════════════
+
+# Generator scripts' output is checked in, but keep any accidental
+# temp backups out of git:
+*.bak
+*.orig
+*.rej
+
+# Local save exports / debug dumps from the game
+saves/
+*.save
+*.save.json
+tlr-debug*.json
+
+# Generated screenshots from dev tooling
+screenshots/
+*.screenshot.png
+
+# Misc dev notes (keep README.md tracked)
+notes.txt
+TODO.local.md
+scratch/
+
+# ══════════════════════════════════════════════════════════════════
+#  OPTIONAL — Uncomment if you use these tools
+# ══════════════════════════════════════════════════════════════════
+# turbo.json
+# .turbo/
+# storybook-static/
+# .storybook/.cache/
+# .docusaurus/
+# *.pdf
+# *.zip

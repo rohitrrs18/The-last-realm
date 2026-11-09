@@ -1,0 +1,1 @@
+export function Tabs({ items, value, onChange }: any) { return <div className="flex border-b border-gold/15 mb-4">{items.map((i: any) => <button key={i.id} onClick={() => onChange(i.id)} className={`px-4 py-2 text-sm ${value === i.id ? 'text-gold border-b-2 border-gold' : 'text-muted'}`}>{i.label}</button>)}</div>; }
