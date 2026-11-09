@@ -1,10 +1,28 @@
+// src/engine/worldGenerator.ts
 import type { World, Location, Rarity } from '../types/game';
 import { mulberry32, pick, randInt, chance, weightedPick } from './rng';
 import {
-  KINGDOM_PREFIX, KINGDOM_SUFFIX, LOCATION_NAMES, LOCATION_DESCRIPTIONS,
+  KINGDOM_PREFIX,
+  KINGDOM_SUFFIX,
+  LOCATION_NAMES,
+  LOCATION_DESCRIPTIONS,
 } from '../data/content';
 
-const LOCATION_TYPES: Location['type'][] = ['village','forest','ruins','cave','mountain','dungeon','castle','lake'];
+const LOCATION_TYPES: Location['type'][] = [
+  'village',
+  'forest',
+  'ruins',
+  'cave',
+  'mountain',
+  'dungeon',
+  'castle',
+  'lake',
+];
+
+interface NameParts {
+  prefix: string[];
+  suffix: string[];
+}
 
 export function generateWorld(seed: number): World {
   const r = mulberry32(seed);
@@ -16,7 +34,7 @@ export function generateWorld(seed: number): World {
 
   for (let i = 0; i < count; i++) {
     const type = pick(r, LOCATION_TYPES);
-    const names: any = LOCATION_NAMES[type];
+    const names = LOCATION_NAMES[type] as NameParts;
     let name = '';
     for (let k = 0; k < 20; k++) {
       name = cap(pick(r, names.prefix) + pick(r, names.suffix));
@@ -26,11 +44,26 @@ export function generateWorld(seed: number): World {
 
     const difficulty = randInt(r, 1, 10);
     const dangerLevel: Location['dangerLevel'] =
-      difficulty <= 3 ? 'Low' : difficulty <= 6 ? 'Moderate' : difficulty <= 8 ? 'High' : 'Deadly';
-    const region = cap(pick(r, ['The Ashen Plains', 'The Hollow Reach', 'The Silver Marches', 'The Broken Vale', 'The Elder Wilds', 'The Deepening']));
+      difficulty <= 3
+        ? 'Low'
+        : difficulty <= 6
+        ? 'Moderate'
+        : difficulty <= 8
+        ? 'High'
+        : 'Deadly';
+    const region = cap(
+      pick(r, [
+        'The Ashen Plains',
+        'The Hollow Reach',
+        'The Silver Marches',
+        'The Broken Vale',
+        'The Elder Wilds',
+        'The Deepening',
+      ])
+    );
     const description = pick(r, LOCATION_DESCRIPTIONS[type]);
 
-    const loot: Rarity[] = ['Common','Common','Uncommon','Uncommon','Rare'];
+    const loot: Rarity[] = ['Common', 'Common', 'Uncommon', 'Uncommon', 'Rare'];
     if (difficulty >= 8) loot.push('Epic');
     if (difficulty >= 9 && chance(r, 0.4)) loot.push('Legendary');
 
@@ -58,18 +91,24 @@ export function generateWorld(seed: number): World {
   };
 }
 
-function cap(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
+function cap(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
-function pickEnemies(type: Location['type'], difficulty: number, r: () => number): string[] {
+function pickEnemies(
+  type: Location['type'],
+  difficulty: number,
+  r: () => number
+): string[] {
   const base: Record<string, string[]> = {
-    forest:   ['dire-wolf', 'giant-spider', 'bandit'],
-    ruins:    ['skeleton', 'wraith', 'hollow-knight'],
-    cave:     ['giant-spider', 'goblin', 'golem'],
-    dungeon:  ['skeleton', 'wraith', 'revenant'],
+    forest: ['dire-wolf', 'giant-spider', 'bandit'],
+    ruins: ['skeleton', 'wraith', 'hollow-knight'],
+    cave: ['giant-spider', 'goblin', 'golem'],
+    dungeon: ['skeleton', 'wraith', 'revenant'],
     mountain: ['dire-wolf', 'colossus'],
-    village:  ['bandit', 'cultist'],
-    castle:   ['hollow-knight', 'revenant'],
-    lake:     ['wraith', 'serpent'],
+    village: ['bandit', 'cultist'],
+    castle: ['hollow-knight', 'revenant'],
+    lake: ['wraith', 'serpent'],
   };
   const list = base[type] ?? ['bandit'];
   const out: string[] = [];
@@ -79,20 +118,29 @@ function pickEnemies(type: Location['type'], difficulty: number, r: () => number
 }
 
 export function locationById(w: World, id: string) {
-  return w.locations.find(l => l.id === id);
+  return w.locations.find((l) => l.id === id);
 }
 
 export function randomRarityFromTable(r: () => number, table: Rarity[]): Rarity {
-  return weightedPick(r, table.map((t) => [t, rarityWeight(t)]));
+  return weightedPick(
+    r,
+    table.map((t) => [t, rarityWeight(t)] as [Rarity, number])
+  );
 }
 
 function rarityWeight(r: Rarity): number {
   switch (r) {
-    case 'Common': return 60;
-    case 'Uncommon': return 30;
-    case 'Rare': return 15;
-    case 'Epic': return 6;
-    case 'Legendary': return 2;
-    case 'Mythic': return 0.3;
+    case 'Common':
+      return 60;
+    case 'Uncommon':
+      return 30;
+    case 'Rare':
+      return 15;
+    case 'Epic':
+      return 6;
+    case 'Legendary':
+      return 2;
+    case 'Mythic':
+      return 0.3;
   }
 }

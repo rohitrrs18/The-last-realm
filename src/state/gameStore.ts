@@ -402,15 +402,50 @@ export const useGame = create<GameStore>((set, get) => ({
     set({ quests: result.state.quests, character: updatedCharacter });
   },
 
-  advanceChainDecision: (chainId, choiceId) => {
-    const { chainProgress, character, quests } = get();
-    if (!character) return;
-    const result = resolveDecision({ id: choiceId, effects: [] }, character, Date.now());
-    set({ character: result.character });
-    const advance = advanceChainStage({ quests, chainProgress, completedCount: 0, chainsCompletedCount: 0 }, chainId, result.flagsToSet);
-    set({ quests: advance.state.quests, chainProgress: advance.state.chainProgress });
-    if (advance.chainCompleted) { get().trackAchievementProgress('chains-completed', 1); toast.success('Main chain complete'); }
-  },
+ advanceChainDecision: (chainId, choiceId) => {
+  const state = get();
+  const { chainProgress, character, quests } = state;
+  if (!character) return;
+
+  // Record the decision in the chronicle.
+  const decisionHistory = [
+    ...state.decisionHistory,
+    { eventId: chainId, choiceId, timestamp: Date.now() },
+  ];
+
+  // Advance chain progress if this chain is tracked.
+  const updatedProgress = chainProgress.map((cp) => {
+    if (cp.chainId !== chainId) return cp;
+    return { ...cp, stagesCompleted: cp.stagesCompleted + 1 };
+  });
+
+  // Mark the corresponding quest complete if one exists.
+  const updatedQuests = quests.map((q) =>
+    q.id === `q_${chainId}` || q.id.includes(chainId)
+      ? { ...q, status: 'completed' as const }
+      : q
+  );
+
+  set({
+    decisionHistory,
+    chainProgress: updatedProgress,
+    quests: updatedQuests,
+  });
+
+  get().trackAchievementProgress('decisions-made', 1);
+
+  // If the chain reached its final stage (2+ stages), finish it.
+  const thisChain = updatedProgress.find((cp) => cp.chainId === chainId);
+  if (thisChain && !thisChain.finished && thisChain.stagesCompleted >= 2) {
+    set({
+      chainProgress: updatedProgress.map((cp) =>
+        cp.chainId === chainId ? { ...cp, finished: true } : cp
+      ),
+    });
+    get().trackAchievementProgress('chains-completed', 1);
+    toast.success('Main chain complete');
+  }
+},
 
   unlockAchievement: (id) => {
     const { unlockedAchievements } = get();
